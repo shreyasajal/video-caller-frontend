@@ -3,7 +3,7 @@ import React, { useRef, useEffect } from 'react';
 const styles = {
   videoContainer: {
     width: '300px',
-    height: '300px'
+    height: '200px'
   },
   videoElement: {
     width: '100%',
