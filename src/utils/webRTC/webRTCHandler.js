@@ -43,7 +43,7 @@ const createPeerConnection = () => {
   const configuration = {
     iceServers: [...turnServers,{url:'stun:stun.1und1.de:3478'}]
   };  
-
+//   in case there is no turnServer in the list obtained by the response data a default turn server's address is provided 
   peerConnection = new RTCPeerConnection(configuration);
 
   const localStream = store.getState().call.localStream;
@@ -56,7 +56,7 @@ const createPeerConnection = () => {
     store.dispatch(setRemoteStream(stream));
   };
 
-  // incoming data channel messages
+  // incoming data channel messages,added listeners onopen and onmessage to handle the incoming data channel messages
   peerConnection.ondatachannel = (event) => {
     const dataChannel = event.channel;
 
@@ -68,11 +68,11 @@ const createPeerConnection = () => {
       store.dispatch(setMessage(true, event.data));
     };
   };
-
-  dataChannel = peerConnection.createDataChannel('chat');
+//name of data channel for messaging is 'messenger'
+  dataChannel = peerConnection.createDataChannel('messenger');
 
   dataChannel.onopen = () => {
-    console.log('chat data channel succesfully opened');
+    console.log('messenger data channel succesfully opened');
   };
 
   peerConnection.onicecandidate = (event) => {
@@ -256,6 +256,7 @@ export const resetCallData = () => {
   store.dispatch(setCallState(callStates.CALL_AVAILABLE));
 };
 
+//used to send the message via the data channel and this message is received on the other side through the onmessage listener
 export const sendMessageUsingDataChannel = (message) => {
   dataChannel.send(message);
 }
