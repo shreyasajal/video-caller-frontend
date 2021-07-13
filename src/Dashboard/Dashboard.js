@@ -14,7 +14,7 @@ import { setTurnServers } from '../utils/webRTC/Turn';
 
 const Dashboard = ({ username, callState }) => {
   useEffect(() => {
-    axios.get('https://teams-clone-backend16.herokuapp.com/api/get-turn-credentials').then(
+    axios.get('https://backend-teams16.herokuapp.com/api/get-turn-credentials').then(
       responseData =>{
         console.log(responseData);
         setTurnServers(responseData.data.token.iceServers);
